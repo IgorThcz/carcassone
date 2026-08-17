@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://10r58nq4dma5"]
+
+[ext_resource type="Shader" uid="uid://dbrxc1h7fr14p" path="res://Shaders/new_shader.gdshader" id="1_50bgh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_50bgh"]
+frequency = 0.0085
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cabul"]
+noise = SubResource("FastNoiseLite_50bgh")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4v1gg"]
+noise_type = 0
+frequency = 0.2573
+fractal_type = 0
+domain_warp_enabled = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_etp7o"]
+width = 2048
+height = 2048
+noise = SubResource("FastNoiseLite_4v1gg")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_50bgh")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_etp7o")
+shader_parameter/layers = 20
+shader_parameter/depth_scale = 0.2
+shader_parameter/depth_strength = 0.4
+shader_parameter/detail_noise_texture = SubResource("NoiseTexture2D_cabul")
+shader_parameter/shape_detail_mix_factor = 0.4
+shader_parameter/detail_scale = Vector2(4, 4)
+shader_parameter/highlight_color = Color(0.27058825, 0.44705883, 0.2509804, 1)
+shader_parameter/base_color = Color(0.34117648, 0.5686275, 0.28235295, 1)
+shader_parameter/mix_amount = 0.0

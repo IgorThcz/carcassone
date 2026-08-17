@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bs5e6s44fk5c4"]
+
+[ext_resource type="Script" uid="uid://cwdqxjfiht1vj" path="res://Scripts/camera.gd" id="1_375tr"]
+
+[node name="camera" type="Node3D" unique_id=1300556203]
+script = ExtResource("1_375tr")
+
+[node name="rotatory" type="Node3D" parent="." unique_id=58798439]
+
+[node name="rotatorx" type="Node3D" parent="rotatory" unique_id=977807580]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 1.1982796, 0)
+
+[node name="Camera3D" type="Camera3D" parent="rotatory/rotatorx" unique_id=698008250]

@@ -1,0 +1,1 @@
+exclua esse arquivo ao ter pelo menos um asset
