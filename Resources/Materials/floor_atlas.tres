@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dtpmqt17kkxmk"]
+
+[ext_resource type="Texture2D" uid="uid://c1r2s87yhf0hr" path="res://Assets/FloorTextures/floor_sprites.png" id="1_l5cxq"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+diffuse_mode = 3
+albedo_texture = ExtResource("1_l5cxq")
+texture_filter = 0

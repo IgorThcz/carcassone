@@ -3,9 +3,9 @@ render_mode blend_mix, depth_draw_opaque, cull_back;
 
 group_uniforms Shape;
 uniform sampler2D noise_texture : filter_linear_mipmap, repeat_enable;
-uniform int layers = 20;
-uniform float depth_scale : hint_range(0.01, 1) = 0.2;
-uniform float depth_strength : hint_range(0.0,1.0) = 0.4;
+uniform int layers = 10;
+uniform float depth_scale : hint_range(0.01, 1) = 0.1;
+uniform float depth_strength : hint_range(0.0,1.0) = 0.1;
 
 group_uniforms Detail;
 uniform sampler2D detail_noise_texture : filter_linear_mipmap, repeat_enable;

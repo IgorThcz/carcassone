@@ -1,0 +1,17 @@
+[gd_resource type="ArrayMesh" format=4 uid="uid://b12j4dte48xym"]
+
+[ext_resource type="Material" uid="uid://dtpmqt17kkxmk" path="res://Resources/Materials/floor_atlas.tres" id="1_vsft0"]
+
+[resource]
+_surfaces = [{
+"aabb": AABB(-3.2, 0, -3.2, 6.4, 1e-05, 6.4),
+"attribute_data": PackedByteArray("AADAPgAAAAAAAAA/AAAAAAAAAD8AAIA/AADAPgAAgD8="),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray("AAACAAMAAAABAAIA"),
+"material": ExtResource("1_vsft0"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("zcxMwAAAAADNzEzAzcxMQAAAAADNzEzAzcxMQAAAAADNzExAzcxMwAAAAADNzExA/3///wAA/7//f///AAD/v/9///8AAP+//3///wAA/78=")
+}]
