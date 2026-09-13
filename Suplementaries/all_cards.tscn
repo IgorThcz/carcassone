@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cin53ka7sh2t4"]
+
+[ext_resource type="Script" uid="uid://dx2s4y3yl7t1t" path="res://Suplementaries/all_cards.gd" id="1_xj8eg"]
+[ext_resource type="PackedScene" uid="uid://1ubmmbdpuave" path="res://Scenes/View3D.tscn" id="2_gmw8e"]
+
+[node name="allCards" type="Node3D" unique_id=1527970451]
+script = ExtResource("1_xj8eg")
+
+[node name="View3D" parent="." unique_id=1873789758 instance=ExtResource("2_gmw8e")]
