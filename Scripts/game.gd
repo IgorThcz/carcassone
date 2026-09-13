@@ -1,15 +1,24 @@
 extends Node3D
 
+enum MPCONFIG {HOST, CLIENT, LOCAL}
+
+var view3D : PackedScene = preload("res://Scenes/View3D.tscn")
+
+@onready var logicinstance  : LogicInstance
+@onready var visualinstance : VisualInstance
+
 func _ready():
-	var num = 1
-	print("\n", Catalogue.models, "\n")
-	while true:
-		if not Catalogue.get_model(num):
-			print("break!")
-			break
-		print("Card 1 --------- ----------")
-		var node : Card = Card.new(num)
-		add_child(node)
-		node.global_position.x += num * 10
-		num += 1
-	print(num, " cards created")
+	# connect players
+	var player1 : Player = IOPlayer.new("0", "Player 1", Color.BLUE)
+	var player2 : Player = IOPlayer.new("1", "Player 1", Color.RED)
+	var players : Array[Player] = [player1, player2]
+	# set visual instance
+	visualinstance = VisualInstance.new(players, view3D.instantiate())
+	add_child(visualinstance)
+	# only then, start scene
+	logicinstance = LogicInstance.new(players)
+	logicinstance.start_game()
+
+func _process(delta):
+	if Input.is_key_pressed(KEY_P):
+		print(logicinstance.vgrid)

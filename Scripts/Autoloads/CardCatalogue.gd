@@ -4,7 +4,7 @@ var json_path : String = "res://Resources/cards.json"
 
 var skins   : Dictionary[int, Node3D] = {}
 var models  : Dictionary = {}
-var structs : Dictionary[int, CardStruture] = {}
+var structs : Dictionary[int, CardStructure] = {}
 
 func get_model(num : int):
 	print("model returned:\n", models.get(str(num), []))
@@ -46,19 +46,19 @@ func load_cards() -> void:
 		printerr("Parsed JSON file is not a dictionary")
 
 # return cards structures under demand using cache for repeated requisitions
-func get_structure(num : int) -> CardStruture:
+func get_structure(num : int) -> CardStructure:
 	# if num is invalid, return
 	if num < 1 or num > models.size():
 		print("number invalid for structure")
 		return null
 	# if structure is already built, return it
 	if structs.has(num):
-		var dup = structs.get(num).duplicate() as CardStruture
+		var dup = structs.get(num).duplicate() as CardStructure
 		dup.build(get_model(num))
 		print("structure duplicated and returned from cache")
 		return dup
 	# else, make struct, save and return
-	var struct : CardStruture = CardStruture.new()
+	var struct : CardStructure = CardStructure.new()
 	struct.build(get_model(num))
 	structs.set(num, struct)
 	print("structure created and returned: ", struct)

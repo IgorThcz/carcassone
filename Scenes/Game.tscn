@@ -1,39 +1,6 @@
-[gd_scene format=3 uid="uid://1ubmmbdpuave"]
+[gd_scene format=3 uid="uid://b5f6t1kuj1137"]
 
-[ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/camera.tscn" id="1_j5yw3"]
-[ext_resource type="Script" uid="uid://cwuswbhn3i1ed" path="res://Scripts/game.gd" id="1_kldst"]
-[ext_resource type="Material" uid="uid://10r58nq4dma5" path="res://Suplementaries/Grass Shader/grass_shader_material.tres" id="2_kldst"]
-[ext_resource type="ArrayMesh" uid="uid://dpp4tg8n3xbuv" path="res://Resources/UVShiftedMeshs/plane_uv_region_5.tres" id="4_kldst"]
+[ext_resource type="Script" uid="uid://cq8acv6nyd2tx" path="res://Scripts/game.gd" id="1_ebmjs"]
 
-[sub_resource type="Environment" id="Environment_26yhd"]
-ambient_light_source = 3
-ambient_light_color = Color(0.78431374, 0.78431374, 1, 1)
-ambient_light_energy = 0.7
-glow_bloom = 1.0
-fog_mode = 1
-fog_density = 1.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_ci6au"]
-material = ExtResource("2_kldst")
-size = Vector2(1000, 1000)
-
-[node name="Game" type="Node3D" unique_id=1873789758]
-script = ExtResource("1_kldst")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=564585164]
-environment = SubResource("Environment_26yhd")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=899817813]
-transform = Transform3D(0.70710677, -0.24184474, 0.664463, 0, 0.9396926, 0.34202012, -0.70710677, -0.24184474, 0.664463, 0, 0, 0)
-shadow_enabled = true
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1762128270]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
-mesh = SubResource("PlaneMesh_ci6au")
-
-[node name="camera" parent="." unique_id=1230086093 instance=ExtResource("1_j5yw3")]
-max_zoom = 60.0
-min_zoom = 5.0
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1441783616]
-mesh = ExtResource("4_kldst")
+[node name="game" type="Node3D" unique_id=1075750165]
+script = ExtResource("1_ebmjs")

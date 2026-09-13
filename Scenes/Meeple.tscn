@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dedly43amu28t"]
+
+[ext_resource type="Script" uid="uid://b24nqrsnpdseo" path="res://Scripts/meeple.gd" id="1_vb48y"]
+
+[node name="Meeple" type="Node3D" unique_id=610053220]
+script = ExtResource("1_vb48y")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=494694275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0665694, 0)
+height = 2.0527344

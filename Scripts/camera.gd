@@ -24,19 +24,33 @@ var min_angle        : float = -90
 var max_angle        : float = -5
 var angle_conversion : float = 0.5
 
+"------------------------------------------- INPUT --------------------------------------------------"
+
+func _ready():
+	IM.mouse_motion_event.connect(_on_mouse_motion_event)
+	IM.mouse_button_event.connect(_on_mouse_button_event)
+
+func _on_mouse_motion_event(event : InputEventMouseMotion):
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
+		rotation(event)
+	elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+		movement(event)
+
+func _on_mouse_button_event(event : InputEventMouseButton):
+	if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		tgt_zoom -= zoom_vel
+	elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		tgt_zoom += zoom_vel
+		
+	tgt_zoom = clamp(tgt_zoom, min_zoom, max_zoom)
+
 "------------------------------------------- CAMERA ------------------------------------------------"
 
 func _physics_process(_delta):
 	camera.position.z += (tgt_zoom - camera.position.z) / 2
 
-func _input(event : InputEvent):
-	if event is InputEventMouseMotion:
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
-			rotation(event)
-		elif Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-			movement(event)
-	elif event is InputEventMouseButton and event.pressed:
-		zoom(event)
+func get_camera_node():
+	return camera
 
 func rotation(event : InputEvent):
 	var delta = event.relative

@@ -14,7 +14,7 @@ const floors : Dictionary[String, ArrayMesh] = {
 
 func build(num : int):
 	print("skin builder requested structure")
-	var structure : CardStruture = Catalogue.get_structure(num)
+	var structure : CardStructure = Catalogue.get_structure(num)
 	print(">>> ", structure)
 	for i in range(4):
 		for j in range(3):
@@ -30,7 +30,7 @@ func build(num : int):
 			if j != 1:
 				rotation_deg = -90 * i
 				# if is city
-				if part.type == CardPart.TYPES.CITY:
+				if part is City:
 					# first or second corner on side
 					var offset : int = 1
 					scale_x = -1
@@ -65,11 +65,11 @@ func build(num : int):
 				rotation_deg = -90 * i
 				scale_x = 1
 				# if is city
-				if part.type == CardPart.TYPES.CITY:
+				if part is City:
 					# only one city floor variation
 					add_floor("side_city", rotation_deg, scale_x)
 					# if center is city, place without wall
-					if structure.get_part(-1).type == CardPart.TYPES.CITY:
+					if structure.get_part(-1) is City:
 						# extra point or not
 						if part.extra_points:
 							# add child
@@ -91,9 +91,9 @@ func build(num : int):
 							print("SKINLOG: WALL, NO EXTRA POINT")
 							add_voxels("uid://ccjb5m6vx68y1", rotation_deg, scale_x)
 				# if is road
-				elif part.type == CardPart.TYPES.ROAD:
+				elif part is Road:
 					# if middle is city, use short road
-					if structure.get_part(-1).type == CardPart.TYPES.CITY:
+					if structure.get_part(-1) is City:
 						add_floor("side_short_road", rotation_deg, 1)
 					# else, use long road
 					else:
@@ -119,3 +119,6 @@ func add_floor(floor_texture : String, rotation_deg : float, scale_x : float):
 	tex.rotation_degrees.y = rotation_deg
 	tex.scale.x = scale_x
 	add_child(tex)
+
+func rotation_from_structure(rotation : CardStructure.CARDROTATION):
+	rotation_degrees.y = 90 * rotation

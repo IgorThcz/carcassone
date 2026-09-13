@@ -5,7 +5,7 @@
 		card_template = value
 		reset_to_template()
 
-var structure : CardStruture
+var structure : CardStructure
 var skin      : Node3D = null
 
 func _init(card_model):
