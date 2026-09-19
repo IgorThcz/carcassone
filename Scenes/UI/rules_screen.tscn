@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://coa7j4xj36e8l"]
+
+[ext_resource type="Script" uid="uid://be6cyuepivwi7" path="res://Scripts/UI/rules_screen.gd" id="1_6xuxm"]
+
+[node name="RulesScreen" type="Control" unique_id=183746917]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6xuxm")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=435355770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.105882354, 0.07058824, 0.047058824, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=496611733]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="MainContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1805682575]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="MarginContainer/MainContainer" unique_id=1740239676]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9019608, 0.72156864, 0.2627451, 1)
+theme_override_font_sizes/font_size = 48
+text = "REGRAS DO JOGO"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/MainContainer" unique_id=1755264127]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/MainContainer/ScrollContainer" unique_id=1003043937]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[font_size=24][color=#E6B843][b]1. Visão Geral[/b][/color][/font_size]
+Carcassonne é um jogo de colocação de peças onde os jogadores constroem o mapa da região peça por peça (estradas, cidades, mosteiros e campos) e posicionam seus seguidores (meeples) para pontuar.
+
+[font_size=24][color=#E6B843][b]2. Turno do Jogador[/b][/color][/font_size]
+Em cada turno, o jogador deve realizar as seguintes ações em ordem:
+1. [b]Comprar e Colocar uma Peça:[/b] Conecte a peça sorteada a pelo menos uma peça já existente no tabuleiro. Todos os lados adjacentes devem combinar (estrada com estrada, cidade com cidade, etc.).
+2. [b]Colocar um Meeple (Opcional):[/b] Você pode colocar um meeple da sua reserva na peça recém-colocada em um segmento não ocupado por outro meeple.
+3. [b]Pontuar Estruturas Concluídas:[/b] Se a colocação da peça fechar uma cidade, estrada ou mosteiro, a pontuação é calculada e os meeples retornam aos donos.
+
+[font_size=24][color=#E6B843][b]3. Pontuação[/b][/color][/font_size]
+• [b]Estradas:[/b] 1 ponto por peça de estrada concluída.
+• [b]Cidades:[/b] 2 pontos por peça de cidade concluída + 2 pontos por cada brasão.
+• [b]Mosteiros:[/b] 9 pontos quando o mosteiro estiver completamente cercado por 8 peças.
+• [b]Campos (Fim do Jogo):[/b] 3 pontos por cada cidade concluída que faz fronteira com o campo."
+
+[node name="BtnBack" type="Button" parent="MarginContainer/MainContainer" unique_id=1766710182]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Voltar ao Menu"
