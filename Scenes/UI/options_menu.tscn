@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://cgbvf7h374ge1"]
+
+[ext_resource type="Script" uid="uid://bg5hrhl5i12jo" path="res://Scripts/UI/options_menu.gd" id="1_run4o"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a8ku5"]
+font_size = 48
+font_color = Color(0.9019608, 0.72156864, 0.2627451, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jtwau"]
+
+[node name="OptionsMenu" type="Control" unique_id=1471406652]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_run4o")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=618220815]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.105882354, 0.07058824, 0.047058824, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1984977]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer" unique_id=1726406970]
+layout_mode = 2
+
+[node name="MainContainer" type="VBoxContainer" parent="MarginContainer/CenterContainer" unique_id=2008629282]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/MainContainer" unique_id=756396126]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "OPÇÕES"
+label_settings = SubResource("LabelSettings_a8ku5")
+
+[node name="SettingsGrid" type="GridContainer" parent="MarginContainer/CenterContainer/MainContainer" unique_id=1880082683]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=50771959]
+layout_mode = 2
+text = "Volume da Música"
+
+[node name="SliderMusic" type="HSlider" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=2102289362]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+value = 80.0
+
+[node name="Label2" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1351021172]
+layout_mode = 2
+text = "Efeitos Sonoros"
+
+[node name="SliderSFX" type="HSlider" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=44524635]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="Label3" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1455990707]
+layout_mode = 2
+text = "Silenciar Áudio"
+
+[node name="CheckMute" type="CheckButton" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1262624142]
+unique_name_in_owner = true
+modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+self_modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jtwau")
+
+[node name="Label4" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1277408710]
+layout_mode = 2
+text = "Modo Daltônico"
+
+[node name="CheckColorblind" type="CheckButton" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=241227073]
+unique_name_in_owner = true
+modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+self_modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jtwau")
+
+[node name="Label5" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1155495776]
+layout_mode = 2
+text = "Tela Cheia"
+
+[node name="CheckFullscreen" type="CheckButton" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1130636594]
+unique_name_in_owner = true
+modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+self_modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jtwau")
+
+[node name="BtnBack" type="Button" parent="MarginContainer/CenterContainer/MainContainer" unique_id=1542339922]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Voltar ao Menu"

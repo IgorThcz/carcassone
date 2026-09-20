@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://7lxb01yfn7c6"]
+
+[ext_resource type="Script" uid="uid://dcdjbdksaq0p7" path="res://Scripts/UI/main_menu.gd" id="1_5wsvm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i2xx2"]
+font_size = 52
+font_color = Color(0.9019608, 0.72156864, 0.2627451, 1)
+
+[node name="MainMenu" type="Control" unique_id=1307295719]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+script = ExtResource("1_5wsvm")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1344134725]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.105882354, 0.07058824, 0.047058824, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1908379942]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -68.0
+offset_right = 150.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1276009509]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "CARCASSONNE"
+label_settings = SubResource("LabelSettings_i2xx2")
+
+[node name="BtnPlay" type="Button" parent="VBoxContainer" unique_id=485297489]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Jogar"
+
+[node name="BtnRules" type="Button" parent="VBoxContainer" unique_id=1798598456]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Regras"
+
+[node name="BtnOptions" type="Button" parent="VBoxContainer" unique_id=1927323133]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Opções"
+
+[node name="BtnCredits" type="Button" parent="VBoxContainer" unique_id=1333467270]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Créditos"
+
+[node name="BtnQuit" type="Button" parent="VBoxContainer" unique_id=1222192418]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sair"
