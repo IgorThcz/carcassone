@@ -30,6 +30,11 @@ func set_mode(mode: SlotMode) -> void:
 	_update_ui()
 	mode_changed.emit(self, current_mode)
 
+func set_color(new_color: Color) -> void:
+	slot_color = new_color
+	if color_box:
+		color_box.color = slot_color
+
 func _update_ui() -> void:
 	match current_mode:
 		SlotMode.HUMAN:

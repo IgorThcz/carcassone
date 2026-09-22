@@ -26,6 +26,7 @@ func _load_current_settings() -> void:
 	# Sincroniza o checkbox com o estado atual da janela
 	var is_fullscreen = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	check_fullscreen.button_pressed = is_fullscreen
+	check_colorblind.button_pressed = GameManager.colorblind_mode
 
 func _on_music_volume_changed(value: float) -> void:
 	print("Volume da Música alterado para: ", value, "%")
@@ -40,8 +41,7 @@ func _on_mute_toggled(toggled_on: bool) -> void:
 	# TBD
 
 func _on_colorblind_toggled(toggled_on: bool) -> void:
-	print("Modo Daltônico ativado: ", toggled_on)
-	# TBD
+	GameManager.colorblind_mode = toggled_on
 
 func _on_fullscreen_toggled(toggled_on: bool) -> void:
 	if toggled_on:
