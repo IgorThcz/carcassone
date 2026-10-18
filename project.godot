@@ -12,12 +12,13 @@ config_version=5
 
 config/name="Carcassone"
 run/main_scene="uid://b5f6t1kuj1137"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
 IM="*uid://bjjr5rc86hd3e"
 Catalogue="*uid://crd1wtaorcs6b"
+GameManager="*uid://dam0gii0i7vtg"
 
 [display]
 
