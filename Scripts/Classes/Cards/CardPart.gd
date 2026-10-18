@@ -53,10 +53,38 @@ func inner_search(card_part : CardPart, search_right : bool = true) -> bool:
 		return inner_left.inner_search(card_part, search_right)
 	return false
 
+# Retorna todas as partes conectadas nesta mesma estrutura do grafo
+func get_region() -> Array[CardPart]:
+	var visited: Array[CardPart] = []
+	var queue: Array[CardPart] = [self]
+	
+	while not queue.is_empty():
+		var current = queue.pop_back()
+		if visited.has(current):
+			continue
+		visited.append(current)
+		
+		for conn in current.get_connections():
+			if conn and not visited.has(conn):
+				queue.append(conn)
+				
+	return visited
+
+## Verifica se a estrutura conectada inteira no grafo está livre de meeples
+func can_receive_meeple() -> bool:
+	if occupier != null:
+		return false
+
+	# Varre todas as partes conectadas da região no tabuleiro
+	for part in get_region():
+		if part.occupier != null:
+			return false
+
+	return true
 
 "------------------------------ FOR OVERRIDING ------------------------------"
 
-@abstract func can_receive_meeple() -> bool
+@abstract func get_meeple_type() -> Meeple.MEEPLETYPE
 
 @abstract func get_type() -> TYPES
 
