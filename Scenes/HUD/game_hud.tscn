@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://7ljxslmfnf35"]
+
+[ext_resource type="Script" uid="uid://ddjr4ayf3kb66" path="res://Scripts/HUD/game_hud.gd" id="1_8tvyq"]
+
+[node name="GameHUD" type="Control" unique_id=302426370]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8tvyq")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1282695309]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=303534661]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1885307146]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="sidebar" type="Panel" parent="MarginContainer/HBoxContainer/HBoxContainer" unique_id=1352675119]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBsidebar" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer/sidebar" unique_id=90195920]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/HBoxContainer" unique_id=767069973]
+layout_mode = 2
+
+[node name="colapse_uncolapse" type="Button" parent="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer" unique_id=297134107]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+toggle_mode = true
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer" unique_id=1145788871]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.5
+
+[connection signal="toggled" from="MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/colapse_uncolapse" to="." method="_on_colapse_uncolapse_toggled"]

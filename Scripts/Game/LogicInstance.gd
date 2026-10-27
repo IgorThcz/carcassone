@@ -7,14 +7,14 @@ extends RefCounted
 static var instance: LogicInstance = null
 
 signal turn_passed(player: Player, card_id: int, valid_positions: Dictionary)
-signal card_drawn(player: Player, card_id: int)
+signal card_drawn(player: Player, card_id: int) # esse sinal não é redundante com o de cima?
 signal card_placed(player: Player, coords: Vector2i, rotation: CardStructure.CARDROTATION, meeple_valids: Array[int], card_id: int)
 signal meeple_placed(player: Player, slot_index: int)
 signal card_discarded(card_id: int)
 signal game_finished(final_scores: Dictionary)
 
 var players: Array[Player] = []
-var initial_card_id: int = 1
+var initial_card_id: int = 10
 var total_tiles: int = 72
 var turn_time_limit: int = 60
 

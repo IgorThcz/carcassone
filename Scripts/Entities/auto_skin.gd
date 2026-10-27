@@ -1,6 +1,7 @@
 class_name AutoSkin extends Node3D
 
 const array_meshes_path : String = "res://Assets/ModularPieces/"
+const SIDE_LENGTH       : float  = 6.4
 
 # type -> ArrayMesh
 const floors : Dictionary[String, ArrayMesh] = {

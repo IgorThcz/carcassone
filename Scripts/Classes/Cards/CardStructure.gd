@@ -202,3 +202,6 @@ func _vector_to_rotation(dir: Vector2i) -> int:
 		_:
 			push_error("is_side_compatible: direção inválida %s" % dir)
 			return CARDROTATION.UP
+
+static func rotation_to_degrees(rot : CardStructure.CARDROTATION) -> float:
+	return 90 * rot

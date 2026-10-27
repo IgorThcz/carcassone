@@ -1,5 +1,6 @@
 extends Control
 
+const GAME_SCENE : PackedScene = preload("uid://b5f6t1kuj1137")
 const PLAYER_SLOT_SCENE = preload("res://Scenes/UI/player_slot.tscn")
 
 @export_file("*.tscn") var main_menu_scene_path: String = "res://Scenes/UI/main_menu.tscn"
@@ -140,6 +141,8 @@ func _on_start_pressed() -> void:
 	
 	# 3. Inicializa o jogo no GameManager
 	GameManager.setup_match(config)
+	get_tree().change_scene_to_packed(GAME_SCENE)
+	return
 	
 	# 4. Instancia o TestRunner e executa os testes com a configuração enviada
 	if ResourceLoader.exists(game_scene_path):

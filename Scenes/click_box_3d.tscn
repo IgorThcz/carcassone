@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://b2ydf2f02si3p"]
+
+[ext_resource type="Script" uid="uid://orlgidqnj7yd" path="res://Scripts/Views/3d_click_box.gd" id="1_qem6a"]
+[ext_resource type="Material" uid="uid://dw2sfmecocxt2" path="res://Resources/Materials/click_box_blue.tres" id="2_658mj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p4g5o"]
+size = Vector3(6.4, 0.4, 6.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p4g5o"]
+size = Vector3(6.4, 0.4, 6.4)
+
+[node name="ClickBox3D" type="StaticBody3D" unique_id=1433363351]
+script = ExtResource("1_qem6a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=548063868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_p4g5o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=402685799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_p4g5o")
+surface_material_override/0 = ExtResource("2_658mj")

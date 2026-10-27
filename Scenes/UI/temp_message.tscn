@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://chjj24d7oiu5b"]
+
+[ext_resource type="Script" uid="uid://cotowv6xo7pt6" path="res://Scripts/UI/temp_message.gd" id="1_b6ksl"]
+
+[node name="TempMessage" type="Panel" unique_id=1723199645]
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b6ksl")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=13999818]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "unconfigured message"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="." unique_id=154050464]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -12,7 +12,7 @@ signal meeple_placement_request(player: Player, index: int)
 # ---------------------------------------------------------------------------
 # SINAIS DE REPASSE (Para observadores e UI)
 # ---------------------------------------------------------------------------
-signal turn_started_repass(card_id: int, valid_positions: Dictionary[Vector2i, Array])
+signal turn_started_repass(player_id: String, card_id: int, valid_positions: Dictionary[Vector2i, Array])
 signal card_placed_repass(
 	player: Player,
 	coords: Vector2i,
@@ -91,7 +91,8 @@ func on_logic_instance_turn_passed(
 	card_id: int,
 	valid_positions: Dictionary[Vector2i, Array]
 ) -> void:
-	turn_started_repass.emit(card_id, valid_positions)
+	MO.sucess("SIGNAL REPASSED")
+	turn_started_repass.emit(player.id, card_id, valid_positions)
 	if _is_self(player):
 		_current_card_id = card_id
 		_current_valid_positions = valid_positions

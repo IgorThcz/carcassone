@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Carcassone"
-run/main_scene="uid://b5f6t1kuj1137"
+run/main_scene="uid://7lxb01yfn7c6"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 IM="*uid://bjjr5rc86hd3e"
 Catalogue="*uid://crd1wtaorcs6b"
 GameManager="*uid://dam0gii0i7vtg"
+MO="*uid://bn7vhbu34ftst"
 
 [display]
 

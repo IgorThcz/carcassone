@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://1ubmmbdpuave"]
 
-[ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/camera.tscn" id="1_j5yw3"]
-[ext_resource type="Script" uid="uid://cwuswbhn3i1ed" path="res://Scripts/Classes/Views/View3D.gd" id="1_kldst"]
+[ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/Game/Entities/camera.tscn" id="1_j5yw3"]
+[ext_resource type="Script" uid="uid://cwuswbhn3i1ed" path="res://Scripts/Views/View3D.gd" id="1_kldst"]
 [ext_resource type="Material" uid="uid://10r58nq4dma5" path="res://Suplementaries/Grass Shader/grass_shader_material.tres" id="2_kldst"]
 
 [sub_resource type="Environment" id="Environment_26yhd"]
@@ -35,3 +35,5 @@ max_zoom = 60.0
 min_zoom = 5.0
 
 [node name="mouseray" type="RayCast3D" parent="." unique_id=2091350000]
+
+[node name="boxes" type="Node3D" parent="." unique_id=1538113952]

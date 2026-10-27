@@ -1,7 +1,13 @@
 class_name VisualInstance extends Node
 
+const PACKED_VIEW3D : PackedScene = preload("uid://1ubmmbdpuave")
+const PACKED_VIEW2D : PackedScene = preload("uid://1ubmmbdpuave")
+const PACKED_HUD    : PackedScene = preload("uid://7ljxslmfnf35")
+
+enum VIEW_MODE {TRIDIMENSIONAL, BIDIMENSIONAL}
+
 var view : Node
-var hud  : Control
+var hud  : GameHUD
 
 var players : Array[Player]
 var local_player : Player
@@ -10,16 +16,36 @@ var local_player : Player
 # (que não carrega card_pos)
 var _last_placed_card_pos : Vector2i = Vector2i.ZERO
 
-func _init(p_players: Array[Player], visualizer: Node) -> void:
+func _init(p_players: Array[Player], mode: VIEW_MODE) -> void:
+	# set players
 	players = p_players
-	view = visualizer
-	add_child(view)
 	local_player = p_players[0]
+	# set view
+	view = _make_visualizer(mode)
+	add_child(view)
+	# set HUD
+	hud = PACKED_HUD.instantiate()
+	add_child(hud)
+	# connect signals
 	_setup_connections()
+
+func _ready():
+	for player : Player in players:
+		hud.add_player(player.player_name, player.id, player.color)
+
+func _make_visualizer(view_mode : VIEW_MODE) -> Node:
+	if view_mode == VIEW_MODE.BIDIMENSIONAL:
+		push_warning("2D View not implemented yet, using 3D instead")
+		var view_ : Node = PACKED_VIEW2D.instantiate()
+		return view_
+	else:
+		var view_ : Node = PACKED_VIEW3D.instantiate()
+		return view_
 
 func _setup_connections() -> void:
 	if not local_player:
 		return
+	MO.sucess("SIGNALS CONNECTED")
 
 	# 1. Escuta SINAIS REPASSADOS PELO PLAYER -> Chama métodos na View/HUD
 	local_player.turn_started_repass.connect(_on_turn_started)
@@ -38,14 +64,18 @@ func _setup_connections() -> void:
 # RESPOSTA A SINAIS REPASSADOS (Player -> VisualInstance -> View/HUD)
 # ==========================================================
 
-func _on_turn_started(card_id: int, valid_positions: Dictionary) -> void:
-	if view.has_method("place_mode"):
-		var valids: Array[Vector2i] = []
-		valids.assign(valid_positions.keys())
-		view.place_mode(valids)
-
-	if hud and hud.has_method("update_drawn_card"):
-		hud.update_drawn_card(card_id)
+func _on_turn_started(
+	player_id       : String,
+	card_id         : int,
+	valid_positions : Dictionary[Vector2i, Array]
+) -> void:
+	MO.sucess("VisualInstance received turn start signal")
+	for player : Player in players:
+		if player is IOPlayer and player.id != player_id:
+			view.go_place_card_mode(card_id, valid_positions)
+			hud.set_current_player(player_id)
+			return
+	view.exit_all_modes()
 
 func _on_card_placed_repass(
 	player: Player,

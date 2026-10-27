@@ -6,7 +6,11 @@ extends RefCounted
 var players_data: Array[PlayerData] = []
 var turn_time_limit: int = 60 
 var total_tiles: int = 72      
-var initial_card_id: int = 1   
+var initial_card_id: int = 1 
+
+# configurações imutáveis (pelo menos por enquanto)
+const meeple_limit : int = 7
+const view_mode : VisualInstance.VIEW_MODE = VisualInstance.VIEW_MODE.TRIDIMENSIONAL
 
 
 func add_player_data(p_data: PlayerData) -> void:
