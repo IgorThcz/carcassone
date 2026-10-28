@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/Game/Entities/camera.tscn" id="1_j5yw3"]
 [ext_resource type="Script" uid="uid://cwuswbhn3i1ed" path="res://Scripts/Views/View3D.gd" id="1_kldst"]
-[ext_resource type="Material" uid="uid://10r58nq4dma5" path="res://Suplementaries/Grass Shader/grass_shader_material.tres" id="2_kldst"]
 
 [sub_resource type="Environment" id="Environment_26yhd"]
 ambient_light_source = 3
@@ -12,9 +11,14 @@ glow_bloom = 1.0
 fog_mode = 1
 fog_density = 1.0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_ci6au"]
-material = ExtResource("2_kldst")
-size = Vector2(1000, 1000)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_on02d"]
+render_priority = -2
+transparency = 1
+albedo_color = Color(0.43529412, 0.6666667, 0.45490196, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ewrq5"]
+material = SubResource("StandardMaterial3D_on02d")
+size = Vector2(10000, 10000)
 
 [node name="View3D" type="Node3D" unique_id=1873789758]
 script = ExtResource("1_kldst")
@@ -27,8 +31,7 @@ transform = Transform3D(0.70710677, -0.24184474, 0.664463, 0, 0.9396926, 0.34202
 shadow_enabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1762128270]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
-mesh = SubResource("PlaneMesh_ci6au")
+mesh = SubResource("PlaneMesh_ewrq5")
 
 [node name="camera" parent="." unique_id=1230086093 instance=ExtResource("1_j5yw3")]
 max_zoom = 60.0
@@ -37,3 +40,27 @@ min_zoom = 5.0
 [node name="mouseray" type="RayCast3D" parent="." unique_id=2091350000]
 
 [node name="boxes" type="Node3D" parent="." unique_id=1538113952]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1187201692]
+visible = false
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer" unique_id=262424336]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+min_value = -1.0
+max_value = 12.0
+rounded = true
+alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1176221050]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "confirm"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

@@ -60,6 +60,7 @@ func _setup_connections() -> void:
 	if view and view.has_signal("meeple_placement_requested"):
 		view.meeple_placement_requested.connect(_on_meeple_placement_requested)
 
+
 # ==========================================================
 # RESPOSTA A SINAIS REPASSADOS (Player -> VisualInstance -> View/HUD)
 # ==========================================================
@@ -70,24 +71,34 @@ func _on_turn_started(
 	valid_positions : Dictionary[Vector2i, Array]
 ) -> void:
 	MO.sucess("VisualInstance received turn start signal")
+	hud.set_current_displayed_card(card_id)
 	for player : Player in players:
-		if player is IOPlayer and player.id != player_id:
+		if player is IOPlayer and player.id == player_id:
 			view.go_place_card_mode(card_id, valid_positions)
 			hud.set_current_player(player_id)
 			return
 	view.exit_all_modes()
 
 func _on_card_placed_repass(
-	player: Player,
+	player_id: String,
 	coords: Vector2i,
 	rotation: CardStructure.CARDROTATION,
 	meeple_valid_indexes: Array[int],
 	card_id: int
 ) -> void:
+	MO.sucess("CARD PLACED REPASS RECEIVED")
 	_last_placed_card_pos = coords
-
-	if view.has_method("add_card"):
-		view.add_card(coords, card_id, rotation)
+	# adiciona a carta visualmente
+	view.add_card(coords, card_id, rotation)
+	# se o player está nessa VisualInstance, entre em modo de colocar meeple
+	for player : Player in players:
+		if player is IOPlayer and player.id != player_id:
+			if (not meeple_valid_indexes.is_empty()) and player.has_available_meeple():
+				view.go_place_meeple_mode(meeple_valid_indexes)
+				hud.set_current_player(player_id)
+			return
+	# se não é nehum player desssa VisualInstance, fica em espera
+	view.exit_all_modes()
 
 func _on_meeple_placed_repass(player: Player, index: int) -> void:
 	if view.has_method("add_meeple"):
@@ -109,6 +120,6 @@ func _on_tile_placement_requested(grid_pos: Vector2i, rot: CardStructure.CARDROT
 	if local_player and local_player.has_method("request_place_card"):
 		local_player.request_place_card(grid_pos, rot)
 
-func _on_meeple_placement_requested(card_pos: Vector2i, meeple_index: int) -> void:
+func _on_meeple_placement_requested(meeple_index: int) -> void:
 	if local_player and local_player.has_method("request_place_meeple"):
 		local_player.request_place_meeple(meeple_index)

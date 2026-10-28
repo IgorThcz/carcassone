@@ -1,5 +1,7 @@
 class_name AutoSkin extends Node3D
 
+const GRASS : PackedScene = preload("uid://ceofejsmay72s")
+
 const array_meshes_path : String = "res://Assets/ModularPieces/"
 const SIDE_LENGTH       : float  = 6.4
 
@@ -14,6 +16,10 @@ const floors : Dictionary[String, ArrayMesh] = {
 }
 
 func build(num : int):
+	# add grass
+	var grass : MeshInstance3D = GRASS.instantiate()
+	add_child(grass)
+	# build modular
 	print("skin builder requested structure")
 	var structure : CardStructure = Catalogue.get_structure(num)
 	print(">>> ", structure)
@@ -162,6 +168,8 @@ func add_voxels(uid : String, rotation_deg : float, scale_x : float):
 func add_floor(floor_texture : String, rotation_deg : float, scale_x : float):
 	var tex : MeshInstance3D = MeshInstance3D.new()
 	tex.mesh = floors.get(floor_texture)
+	var mat : BaseMaterial3D = tex.mesh.surface_get_material(0)
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	tex.rotation_degrees.y = rotation_deg
 	tex.scale.x = scale_x
 	add_child(tex)

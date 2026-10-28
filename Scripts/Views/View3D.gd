@@ -9,6 +9,11 @@ const clickbox_packed_scene : PackedScene = preload("uid://b2ydf2f02si3p")
 @onready var mouseray : RayCast3D = $mouseray
 @onready var camera   : Camera3D  = $camera.get_camera_node()
 
+"trocar por uma forma melhor depois"
+@onready var meplacer : Control   = $VBoxContainer
+var last_valids : Array[int] = []
+
+
 var cards   : Dictionary[Vector2i, AutoSkin] = {}
 var meeples : Dictionary[AutoSkin, Node3D]   = {}
 
@@ -23,6 +28,10 @@ var skin_rot_tween : Tween
 var last_tagt_rot  : float = 45 # (degrees) nunca pode ser válido
 
 var current_click_box : ClickBox3D
+var hud : GameHUD
+
+var last_placed_skin : AutoSkin
+var last_placed_card : CardStructure
 
 "------------------------------ READY / PROCESS --------------------------------"
 
@@ -70,7 +79,6 @@ func _update_current_click_box() -> void:
 			if current_skin:
 				_tween_skin_to_global_position(current_click_box.global_position)
 
-"VERIFICAR CURSO A PARTIR DAQUI"
 func _select_click_box() -> void:
 	# retorna se nao estiver posicionando carta
 	if state != STATE.PLACING_CARD: return
@@ -133,25 +141,17 @@ func add_card(
 	state = STATE.WAITING
 	if current_skin: current_skin.hide()
 
-"NÃO REVISADO, ESPERE NÃO FUNCIONAR"
 func add_meeple(card_pos: Vector2i, meeple_index : int) -> void:
 	var card_skin = cards.get(card_pos)
 	if not card_skin or not meeple_packed_scene:
 		return
-		
-	# Instancia o meeple visual
-	var meeple_node = meeple_packed_scene.instantiate()
-	card_skin.add_child(meeple_node)
-	
-	# Obtém a posição 3D local do slot no AutoSkin (caso exista método/nó de marcação)
-	if card_skin.has_method("get_slot_local_position"):
-		meeple_node.position = card_skin.get_slot_local_position(meeple_index)
-	else:
-		var slot_node = card_skin.get_node_or_null("Slots/Slot_" + str(meeple_index))
-		if slot_node:
-			meeple_node.position = slot_node.position
-			
-	meeples[card_skin] = meeple_node
+	# adiciona o meeple visual
+	card_skin.add_meeple_at_index(meeple_index)
+	# se estava posicionando esse meeple, sai do modo
+	if state == STATE.EXPECTING_ANSWER_MEEPLE:
+		meplacer.hide()
+		state = STATE.WAITING
+	MO.sucess("Meeple placed at index "+str(meeple_index))
 
 "NÃO REVISADO, ESPERE NÃO FUNCIONAR"
 func remove_meeple(card_pos: Vector2i) -> void:
@@ -223,8 +223,19 @@ func _go_to_wait_card_placement_answer_mode():
 
 "NÃO REVISADO, ESPERE NÃO FUNCIONAR"
 func go_place_meeple_mode(valids: Array[int]) -> void:
-	return
+	last_valids = valids
+	meplacer.show()
+	state = STATE.PLACING_MEEPLE
 
 "NÃO REVISADO, ESPERE NÃO FUNCIONAR"
 func exit_all_modes() -> void:
 	return
+
+"---------------------- meeple Placement -----------------------"
+
+func _on_button_pressed():
+	var index : int = int($VBoxContainer/SpinBox.value)
+	if last_valids.has(index) and state == STATE.PLACING_MEEPLE:
+		meeple_placement_requested.emit(index-1)
+		state = STATE.EXPECTING_ANSWER_MEEPLE
+		MO.sucess("meeple asked at index " + str(index-1))

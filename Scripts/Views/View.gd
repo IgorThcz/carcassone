@@ -2,7 +2,7 @@
 
 # Sinais para comunicar com a UI Overlay / GameController
 signal tile_placement_requested(grid_pos: Vector2i, rot: CardStructure.CARDROTATION)
-signal meeple_placement_requested(card_pos: Vector2i, meeple_index: int)
+signal meeple_placement_requested(meeple_index: int)
 
 enum STATE {
 	PLACING_CARD,
@@ -23,6 +23,10 @@ func add_meeple(card_pos: Vector2i, meeple_index : int) -> void
 
 @abstract
 func remove_meeple(card_pos: Vector2i) -> void
+
+"--------------------------- MEEPLE PLACING ----------------------"
+
+
 
 "--------------------------- MODE SELECTION ----------------------"
 

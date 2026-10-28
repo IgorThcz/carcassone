@@ -2,8 +2,13 @@ class_name GameHUD extends Control
 
 const PACKED_PLAYER_TRACKER : PackedScene = preload("uid://btvdexw4nwgkr")
 
-@onready var sidebar      : Panel         = $MarginContainer/HBoxContainer/HBoxContainer/sidebar
-@onready var vbox_sidebar : VBoxContainer = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBsidebar
+@onready var sidebar   : Panel         = $MarginContainer/HBoxContainer/HBoxContainer/sidebar
+@onready var playerbar : VBoxContainer = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/playerbar
+@onready var display   : SubViewport   = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/current_card_bar/HBoxContainer/SubViewportContainer/card_display_3D
+@onready var mep_opt   : Control       = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/current_card_bar/HBoxContainer/SubViewportContainer/meeple_options
+
+signal index_hovered_repass(index : int)
+signal index_selected_repass(index : int)
 
 # int -> player tracker
 var players : Dictionary[int, PlayerTracker] = {}
@@ -19,7 +24,7 @@ func add_player(name_ : String, id : String, color : Color) -> bool:
 	var new : PlayerTracker = PACKED_PLAYER_TRACKER.instantiate()
 	players.set(id, new)
 	# add to tree
-	vbox_sidebar.add_child(new)
+	playerbar.add_child(new)
 	# set data
 	new.set_data(id, name_, color, 0, GameManager.active_config.meeple_limit)
 	return true
@@ -41,3 +46,21 @@ func set_points_for_player(points : int, player_id : String) -> bool:
 	if not players: return false
 	player.update_meeples(points)
 	return true
+
+func set_current_displayed_card(id : int) -> void:
+	display.set_card(id)
+
+func _on_meeple_options_index_hovered(index : int) -> void:
+	index_hovered_repass.emit(index)
+
+func _on_meeple_options_index_selected(index : int) -> void:
+	index_selected_repass.emit(index)
+
+func hide_meeple_selector() -> void:
+	mep_opt.hide()
+
+func show_meeple_selector() -> void:
+	mep_opt.show()
+
+func configure_meeple_selector(valids : Array[int]) -> void:
+	mep_opt.configure(valids)

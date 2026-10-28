@@ -14,7 +14,7 @@ signal meeple_placement_request(player: Player, index: int)
 # ---------------------------------------------------------------------------
 signal turn_started_repass(player_id: String, card_id: int, valid_positions: Dictionary[Vector2i, Array])
 signal card_placed_repass(
-	player: Player,
+	player_id: String,
 	coords: Vector2i,
 	rotation: CardStructure.CARDROTATION,
 	meeple_valid_indexes: Array[int],
@@ -55,6 +55,7 @@ func request_place_card(pos: Vector2i, rot: CardStructure.CARDROTATION) -> void:
 
 
 func request_place_meeple(index: int) -> void:
+	MO.sucess("PLAYER REQUESTED MEEPLE")
 	meeple_placement_request.emit(self, index)
 
 
@@ -106,7 +107,8 @@ func on_logic_instance_card_placed(
 	meeple_valid_indexes: Array[int],
 	card_id: int
 ) -> void:
-	card_placed_repass.emit(player, coords, rotation, meeple_valid_indexes, card_id)
+	var player_id = player.id if player else "invalid_id"
+	card_placed_repass.emit(player_id, coords, rotation, meeple_valid_indexes, card_id)
 	if _is_self(player):
 		_current_meeple_valid_indexes = meeple_valid_indexes
 		_decide_meeple_placement(meeple_valid_indexes)
