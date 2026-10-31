@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://1ubmmbdpuave"]
 
 [ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/Game/Entities/camera.tscn" id="1_j5yw3"]
-[ext_resource type="Script" uid="uid://cwuswbhn3i1ed" path="res://Scripts/Views/View3D.gd" id="1_kldst"]
+[ext_resource type="Script" uid="uid://lccrs8v3wifb" path="res://Scripts/Views/view3D.gd" id="1_uypyq"]
 
 [sub_resource type="Environment" id="Environment_26yhd"]
 ambient_light_source = 3
@@ -21,7 +21,7 @@ material = SubResource("StandardMaterial3D_on02d")
 size = Vector2(10000, 10000)
 
 [node name="View3D" type="Node3D" unique_id=1873789758]
-script = ExtResource("1_kldst")
+script = ExtResource("1_uypyq")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=564585164]
 environment = SubResource("Environment_26yhd")

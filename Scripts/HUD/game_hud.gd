@@ -5,13 +5,21 @@ const PACKED_PLAYER_TRACKER : PackedScene = preload("uid://btvdexw4nwgkr")
 @onready var sidebar   : Panel         = $MarginContainer/HBoxContainer/HBoxContainer/sidebar
 @onready var playerbar : VBoxContainer = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/playerbar
 @onready var display   : SubViewport   = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/current_card_bar/HBoxContainer/SubViewportContainer/card_display_3D
-@onready var mep_opt   : Control       = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/current_card_bar/HBoxContainer/SubViewportContainer/meeple_options
+@onready var cardcount : RichTextLabel = $MarginContainer/HBoxContainer/HBoxContainer/sidebar/VBoxContainer/current_card_bar/cardcount
 
-signal index_hovered_repass(index : int)
-signal index_selected_repass(index : int)
+var total_cards   : int
+var current_cards : int
 
 # int -> player tracker
 var players : Dictionary[int, PlayerTracker] = {}
+
+func _ready():
+	total_cards = GameManager.active_config.total_tiles
+	total_cards = current_cards
+	_set_card_counter()
+
+func _set_card_counter() -> void:
+	cardcount.text = "restantes\n"+str(current_cards)+"/"+str(total_cards)
 
 func _on_colapse_uncolapse_toggled(toggled_on : bool) -> void:
 	sidebar.visible = toggled_on
@@ -50,17 +58,6 @@ func set_points_for_player(points : int, player_id : String) -> bool:
 func set_current_displayed_card(id : int) -> void:
 	display.set_card(id)
 
-func _on_meeple_options_index_hovered(index : int) -> void:
-	index_hovered_repass.emit(index)
-
-func _on_meeple_options_index_selected(index : int) -> void:
-	index_selected_repass.emit(index)
-
-func hide_meeple_selector() -> void:
-	mep_opt.hide()
-
-func show_meeple_selector() -> void:
-	mep_opt.show()
-
-func configure_meeple_selector(valids : Array[int]) -> void:
-	mep_opt.configure(valids)
+func decrease_card_count() -> void:
+	current_cards -= 1
+	_set_card_counter()

@@ -4,15 +4,6 @@
 signal tile_placement_requested(grid_pos: Vector2i, rot: CardStructure.CARDROTATION)
 signal meeple_placement_requested(meeple_index: int)
 
-enum STATE {
-	PLACING_CARD,
-	EXPECTING_ANSWER_CARD,
-	PLACING_MEEPLE,
-	EXPECTING_ANSWER_MEEPLE,
-	WAITING
-	}
-var state : STATE = STATE.WAITING
-
 "------------------------ APPEARENCE UPDATE ----------------------"
 
 @abstract
@@ -23,9 +14,6 @@ func add_meeple(card_pos: Vector2i, meeple_index : int) -> void
 
 @abstract
 func remove_meeple(card_pos: Vector2i) -> void
-
-"--------------------------- MEEPLE PLACING ----------------------"
-
 
 
 "--------------------------- MODE SELECTION ----------------------"

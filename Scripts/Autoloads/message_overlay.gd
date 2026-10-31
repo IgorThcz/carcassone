@@ -10,8 +10,8 @@ func error(text : String) -> void:
 func warning(text : String) -> void:
 	_add_message(TempMessage.TEMP_MESSAGE_TYPE.WARNING, text)
 	
-func sucess(text : String) -> void:
-	_add_message(TempMessage.TEMP_MESSAGE_TYPE.SUCESS, text)
+func success(text : String) -> void:
+	_add_message(TempMessage.TEMP_MESSAGE_TYPE.SUCCESS, text)
 
 func _add_message(type : TempMessage.TEMP_MESSAGE_TYPE, text : String) -> void:
 	var message : TempMessage = TEMP_MESSAGE.instantiate()

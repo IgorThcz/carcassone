@@ -3,15 +3,15 @@
 ## Classe base abstrata para todos os tipos de jogadores (Humanos e IA).
 ## Gerencia recursos (meeples, placar) e aplica Template Method para o fluxo de turnos.
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # SINAIS DE REQUISIÇÃO (Para a LogicInstance)
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 signal card_placement_request(player: Player, pos: Vector2i, rot: CardStructure.CARDROTATION)
 signal meeple_placement_request(player: Player, index: int)
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # SINAIS DE REPASSE (Para observadores e UI)
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 signal turn_started_repass(player_id: String, card_id: int, valid_positions: Dictionary[Vector2i, Array])
 signal card_placed_repass(
 	player_id: String,
@@ -24,9 +24,12 @@ signal meeple_placed_repass(player: Player, index: int)
 signal game_finished_repass(scores: Dictionary)
 signal card_discarded_repass(card_id: int)
 
-# ---------------------------------------------------------------------------
+signal card_placement_denied()
+signal meeple_placement_denied()
+
+# ------------------------------------------------------------------------------
 # ATRIBUTOS DE ESTADO E DOMÍNIO
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 var id: String
 var player_name: String
 var color: Color
@@ -47,59 +50,71 @@ func _init(p_id: String, p_name: String, p_color: Color) -> void:
 	color = p_color
 
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # MÉTODOS PÚBLICOS DE REQUISIÇÃO
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 func request_place_card(pos: Vector2i, rot: CardStructure.CARDROTATION) -> void:
 	card_placement_request.emit(self, pos, rot)
 
-
 func request_place_meeple(index: int) -> void:
-	MO.sucess("PLAYER REQUESTED MEEPLE")
 	meeple_placement_request.emit(self, index)
 
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # REGRAS DE DOMÍNIO
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 func has_available_meeple() -> bool:
 	return available_meeples > 0
-
 
 func use_meeple() -> void:
 	if available_meeples > 0:
 		available_meeples -= 1
 
-
 func return_meeple() -> void:
 	if available_meeples < total_meeples:
 		available_meeples += 1
 
-
 func add_score(points: int) -> void:
 	score += points
-
 
 func _is_self(player: Player) -> bool:
 	return player == self
 
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # TRATAMENTO DE EVENTOS DA LOGIC INSTANCE (TEMPLATE METHOD)
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+
+# POSICIONAMENTO DE CARTA ------------------------------------------------------
+
+# o turno foi passado, essa informação é repassada para a VisualInstance por
+# sinal, se for a vez desse player, a visual instance onde ele está vai
+# entrar em modo de posicionamento de carta
 func on_logic_instance_turn_passed(
 	player: Player,
 	card_id: int,
 	valid_positions: Dictionary[Vector2i, Array]
 ) -> void:
-	MO.sucess("SIGNAL REPASSED")
 	turn_started_repass.emit(player.id, card_id, valid_positions)
 	if _is_self(player):
 		_current_card_id = card_id
 		_current_valid_positions = valid_positions
+		# para o IOPlayer, isso não faz nada ainda (e não precisa)
 		_decide_card_placement(card_id, valid_positions)
+		
+# isso quer dizer que o player atual tentou realizar um posicionamento inválido
+# é preciso apenas repassar ese avido ao VisualInstance, se o player responsável
+# pelo pedido estiver aqui, o VisualInstance coloca a View para repetir o 
+# posicionamento
+func on_logic_instance_card_placement_denied(player: Player) -> void:
+	card_placement_denied.emit()
+	if _is_self(player):
+		_decide_card_placement(_current_card_id, _current_valid_positions)
 
-
+# carta foi posicionada e validada, só é preciso informar isso à instancia
+# visual onde esse player está, ela vai entrar em modo de posicionamento
+# de meeple se for válido e for a vez desse player
 func on_logic_instance_card_placed(
 	player: Player,
 	coords: Vector2i,
@@ -111,34 +126,37 @@ func on_logic_instance_card_placed(
 	card_placed_repass.emit(player_id, coords, rotation, meeple_valid_indexes, card_id)
 	if _is_self(player):
 		_current_meeple_valid_indexes = meeple_valid_indexes
+		# para o IOPlayer, isso não faz nada ainda (e não precisa)
 		_decide_meeple_placement(meeple_valid_indexes)
 
 
+# POSICIONAMENTO DE MEEPLE -----------------------------------------------------
+
+# foi tentado posicionar um meeple em indice invalido, repassa para a instancia
+# visual, se o player responsavel estiver nela, repete o posicionamento
+func on_logic_instance_meeple_placement_denied(player: Player) -> void:
+	meeple_placement_denied.emit()
+	if _is_self(player):
+		_decide_meeple_placement(_current_meeple_valid_indexes)
+
+# apenas precisa informar o VisualInstance que um meeple foi posicionado,
+# repasse com sinal
 func on_logic_instance_meeple_placed(player: Player, index: int) -> void:
 	meeple_placed_repass.emit(player, index)
 
 
-func on_logic_instance_card_placement_denied(player: Player) -> void:
-	if _is_self(player):
-		_decide_card_placement(_current_card_id, _current_valid_positions)
-
-
-func on_logic_instance_meeple_placement_denied(player: Player) -> void:
-	if _is_self(player):
-		_decide_meeple_placement(_current_meeple_valid_indexes)
-
+# OUTROS REPASSES --------------------------------------------------------------
 
 func on_logic_instance_game_finished(scores: Dictionary) -> void:
 	game_finished_repass.emit(scores)
-
 
 func on_logic_instance_card_discarded(card_id: int) -> void:
 	card_discarded_repass.emit(card_id)
 
 
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # HOOKS ABSTRATOS DE DECISÃO (Implementados por AIPlayer e HumanPlayer/IO)
-# ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 @abstract
 func _decide_card_placement(card_id: int, valid_positions: Dictionary[Vector2i, Array]) -> void
 

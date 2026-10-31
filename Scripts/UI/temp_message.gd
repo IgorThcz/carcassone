@@ -1,6 +1,6 @@
 class_name TempMessage extends Panel
 
-enum TEMP_MESSAGE_TYPE {SUCESS, WARNING, ERROR}
+enum TEMP_MESSAGE_TYPE {SUCCESS, WARNING, ERROR}
 
 @onready var rich_text_label = $RichTextLabel
 
