@@ -3,9 +3,6 @@
 [ext_resource type="Script" uid="uid://cowvll2fplsr8" path="res://Scripts/Views/meeple_index_input.gd" id="1_hqqow"]
 [ext_resource type="Material" uid="uid://dw2sfmecocxt2" path="res://Resources/Materials/click_box_blue.tres" id="2_nm5wm"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_p4g5o"]
-size = Vector2(6.4, 6.4)
-
 [sub_resource type="BoxMesh" id="BoxMesh_p4g5o"]
 size = Vector3(2.2, 1, 2.2)
 
@@ -46,8 +43,7 @@ albedo_color = Color(0.30588236, 1, 1, 0.47058824)
 [node name="meeple_index_input" type="Node3D" unique_id=1219813324]
 script = ExtResource("1_hqqow")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1609165664]
-mesh = SubResource("PlaneMesh_p4g5o")
+[node name="MeshInstance3D" type="Node3D" parent="." unique_id=111969946]
 
 [node name="center" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1657600235]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
