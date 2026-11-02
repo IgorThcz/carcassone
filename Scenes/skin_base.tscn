@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://caehay6nh35ny"]
+
+[ext_resource type="Script" uid="uid://uvyr6c8jhmue" path="res://Scripts/Views/skin_base.gd" id="1_2ijqp"]
+[ext_resource type="PackedScene" uid="uid://ceofejsmay72s" path="res://Scenes/grass.tscn" id="2_ekcba"]
+
+[node name="skin_base" type="Node3D" unique_id=368565148]
+script = ExtResource("1_2ijqp")
+
+[node name="grass" parent="." unique_id=1640786518 instance=ExtResource("2_ekcba")]
+
+[node name="center" type="Marker3D" parent="." unique_id=1835484323]
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1252764536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Marker3D2" type="Marker3D" parent="." unique_id=2077572749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Marker3D3" type="Marker3D" parent="." unique_id=782017657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 1.5)
+
+[node name="Marker3D4" type="Marker3D" parent="." unique_id=105600485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 1.5)
+
+[node name="Marker3D5" type="Marker3D" parent="." unique_id=1020112487]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, -1.5)
+
+[node name="Marker3D6" type="Marker3D" parent="." unique_id=1803497423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, -1.5)
+
+[node name="Marker3D7" type="Marker3D" parent="." unique_id=1500413696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.742278e-08, 0, -2)
+
+[node name="Marker3D8" type="Marker3D" parent="." unique_id=1919542772]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.742278e-08, 0, 2)
+
+[node name="Marker3D9" type="Marker3D" parent="." unique_id=1366361553]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4999999, 0, -2.5)
+
+[node name="Marker3D10" type="Marker3D" parent="." unique_id=800112175]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5000001, 0, 2.5)
+
+[node name="Marker3D11" type="Marker3D" parent="." unique_id=1387709451]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5000001, 0, -2.5)
+
+[node name="Marker3D12" type="Marker3D" parent="." unique_id=1243836259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4999999, 0, 2.5)

@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://1ubmmbdpuave"]
+
+[ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/Game/Entities/camera.tscn" id="1_j5yw3"]
+[ext_resource type="Script" uid="uid://lccrs8v3wifb" path="res://Scripts/Views/view3D.gd" id="1_uypyq"]
+[ext_resource type="PackedScene" uid="uid://dcv7fv31m88vw" path="res://Scenes/meeple_index_input.tscn" id="3_5bbj7"]
+
+[sub_resource type="Environment" id="Environment_26yhd"]
+ambient_light_source = 3
+ambient_light_color = Color(0.78431374, 0.78431374, 1, 1)
+ambient_light_energy = 0.7
+glow_bloom = 1.0
+fog_mode = 1
+fog_density = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_on02d"]
+render_priority = -2
+transparency = 1
+albedo_color = Color(0.43529412, 0.6666667, 0.45490196, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ewrq5"]
+material = SubResource("StandardMaterial3D_on02d")
+size = Vector2(10000, 10000)
+
+[node name="View3D" type="Node3D" unique_id=1873789758]
+script = ExtResource("1_uypyq")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=564585164]
+environment = SubResource("Environment_26yhd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=899817813]
+transform = Transform3D(0.70710677, -0.24184474, 0.664463, 0, 0.9396926, 0.34202012, -0.70710677, -0.24184474, 0.664463, 0, 0, 0)
+shadow_enabled = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1762128270]
+mesh = SubResource("PlaneMesh_ewrq5")
+
+[node name="camera" parent="." unique_id=1230086093 instance=ExtResource("1_j5yw3")]
+max_zoom = 60.0
+min_zoom = 5.0
+
+[node name="mouseray" type="RayCast3D" parent="." unique_id=2091350000]
+
+[node name="boxes" type="Node3D" parent="." unique_id=1538113952]
+
+[node name="meeple_index_input" parent="." unique_id=1219813324 instance=ExtResource("3_5bbj7")]
+
+[connection signal="skip_placement" from="meeple_index_input" to="." method="_on_meeple_index_input_skip_placement"]

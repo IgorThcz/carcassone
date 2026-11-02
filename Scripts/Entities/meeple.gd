@@ -11,7 +11,7 @@ enum MEEPLETYPE {
 
 static var colored_materials : Dictionary[Color, StandardMaterial3D] = {}
 
-func configure(color : Color, index : int, type : MEEPLETYPE):
+func configure(color : Color):
 	if not colored_materials.has(color):
 		var newmat : StandardMaterial3D
 		newmat = csg_cylinder_3d.material.duplicate()

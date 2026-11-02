@@ -23,6 +23,8 @@ var hud  : GameHUD
 var players : Array[Player]
 var local_player : Player
 
+var current_player_id : String
+
 #-------------------------------------------------------------------------------
 var current_drawn_card_id    : int
 var current_valid_positions : Dictionary[Vector2i, Array]
@@ -66,7 +68,6 @@ func _make_visualizer(view_mode : VIEW_MODE) -> Node:
 func _setup_connections() -> void:
 	if not local_player:
 		return
-	MO.success("SIGNALS CONNECTED")
 
 	# 1. Escuta SINAIS REPASSADOS PELO PLAYER -> Chama métodos na View/HUD
 	local_player.turn_started_repass     .connect(_on_turn_started)
@@ -87,6 +88,7 @@ func _setup_connections() -> void:
 
 # turno foi passado:
 # - (sempre)
+#   - salva o jogador atual
 #   - atualiza na hud o player atual e a carta atual
 #   - atualiza na hud a quantidade de cartas restantes
 # - (player)
@@ -101,8 +103,8 @@ func _on_turn_started(
 	card_id         : int,
 	valid_positions : Dictionary[Vector2i, Array]
 ) -> void:
-	MO.success("TURN STARDED RECEIVED")
 	# sempre -------------------------------------------------------------------
+	current_player_id = player_id
 	current_drawn_card_id = card_id
 	current_valid_positions = valid_positions
 	hud.set_current_displayed_card(card_id)
@@ -150,9 +152,6 @@ func _on_card_placed_repass(
 	meeple_valid_indexes: Array[int],
 	card_id: int
 ) -> void:
-	MO.success("CARD PLACED RECEIVED")
-	if meeple_valid_indexes.is_empty():
-		MO.error("BUT MEEPLES IS EMPTY")
 	# sempre -------------------------------------------------------------------
 	last_placed_card_pos = coords
 	view.add_card(coords, card_id, rotation)
@@ -185,7 +184,8 @@ func _on_meeple_placement_denied_repass():
 #   - remove um meeple do player na hud
 #   - modo muda para esperando
 func _on_meeple_placed_repass(player: Player, index: int) -> void:
-	view.add_meeple(last_placed_card_pos, index)
+	MO.error("MEEPLE VISUAL PLACEMENT CALLED")
+	view.add_meeple(last_placed_card_pos, index, player.color)
 	hud.set_meeples_for_player(player.available_meeples, player.id)
 	if mode == INSTANCE_MODE.SENT_MEEPLE_PLACEMENT_REQUEST:
 		view.exit_all_modes()
@@ -206,14 +206,22 @@ func _on_card_discarded_repass(_card_id: int) -> void:
 
 "---------------------- ENVIO DE DECISÕES DOS JOGADORES ------------------------"
 
+func get_current_player() -> Player:
+	for player : Player in players:
+		if player.id == current_player_id:
+			return player
+	return null
+
 func _on_tile_placement_requested(grid_pos: Vector2i, rot: CardStructure.CARDROTATION) -> void:
 	if local_player and local_player.has_method("request_place_card"):
-		MO.success("CARD PLACEMENT REQESTED")
 		mode = INSTANCE_MODE.SENT_CARD_PLACEMENT_REQUEST
-		local_player.request_place_card(grid_pos, rot)
+		var current_player : Player = get_current_player()
+		if current_player:
+			current_player.request_place_card(grid_pos, rot)
 
 func _on_meeple_placement_requested(meeple_index: int) -> void:
 	if local_player and local_player.has_method("request_place_meeple"):
-		MO.success("MEEPLE PLACEMENT REQESTED")
 		mode = INSTANCE_MODE.SENT_MEEPLE_PLACEMENT_REQUEST
-		local_player.request_place_meeple(meeple_index)
+		var current_player : Player = get_current_player()
+		if current_player:
+			current_player.request_place_meeple(meeple_index)

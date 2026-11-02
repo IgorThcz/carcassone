@@ -10,7 +10,7 @@ signal meeple_placement_requested(meeple_index: int)
 func add_card(pos: Vector2i, id : int, rot : CardStructure.CARDROTATION) -> void
 
 @abstract
-func add_meeple(card_pos: Vector2i, meeple_index : int) -> void
+func add_meeple(card_pos: Vector2i, meeple_index : int, color : Color) -> void
 
 @abstract
 func remove_meeple(card_pos: Vector2i) -> void

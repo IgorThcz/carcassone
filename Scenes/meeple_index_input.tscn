@@ -1,0 +1,200 @@
+[gd_scene format=3 uid="uid://dcv7fv31m88vw"]
+
+[ext_resource type="Script" uid="uid://cowvll2fplsr8" path="res://Scripts/Views/meeple_index_input.gd" id="1_hqqow"]
+[ext_resource type="Material" uid="uid://dw2sfmecocxt2" path="res://Resources/Materials/click_box_blue.tres" id="2_nm5wm"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_p4g5o"]
+size = Vector2(6.4, 6.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p4g5o"]
+size = Vector3(2.2, 1, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p4g5o"]
+size = Vector3(2.2, 1, 2.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_60qc7"]
+size = Vector3(2.1, 1, 2.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l4o1s"]
+size = Vector3(2.1, 1, 2.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b411e"]
+size = Vector3(2.1, 1, 2.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ea276"]
+size = Vector3(2.2, 1, 2.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0dfq"]
+size = Vector3(2.2, 1, 2.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b5x5a"]
+size = Vector3(2.2, 1, 2.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_p4g5o"]
+left_to_right = 1.0
+size = Vector3(2.1, 2.1, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_l4o1s"]
+points = PackedVector3Array(-1.05, -1.05, -0.5, 1.05, -1.05, -0.5, 1.05, 1.05, -0.5, -1.05, -1.05, 0.5, 1.05, -1.05, 0.5, 1.05, 1.05, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjprn"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.30588236, 1, 1, 0.47058824)
+
+[node name="meeple_index_input" type="Node3D" unique_id=1219813324]
+script = ExtResource("1_hqqow")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1609165664]
+mesh = SubResource("PlaneMesh_p4g5o")
+
+[node name="center" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1657600235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = ExtResource("2_nm5wm")
+mesh = SubResource("BoxMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/center" unique_id=789502224]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/center/StaticBody3D" unique_id=101048016]
+shape = SubResource("BoxShape3D_p4g5o")
+debug_color = Color(0.6156863, 0.11764706, 1, 1)
+
+[node name="side" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2068545690]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15, 0.5, 0)
+material_override = ExtResource("2_nm5wm")
+mesh = SubResource("BoxMesh_60qc7")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/side" unique_id=13787709]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/side/StaticBody3D" unique_id=1045239628]
+shape = SubResource("BoxShape3D_l4o1s")
+
+[node name="side2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1139837601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.15, 0.5, 0)
+material_override = ExtResource("2_nm5wm")
+mesh = SubResource("BoxMesh_b411e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/side2" unique_id=1101132658]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/side2/StaticBody3D" unique_id=1160523228]
+shape = SubResource("BoxShape3D_l4o1s")
+
+[node name="side3" type="MeshInstance3D" parent="MeshInstance3D" unique_id=920536306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.021930791, 0.5, -2.1498883)
+material_override = ExtResource("2_nm5wm")
+mesh = SubResource("BoxMesh_ea276")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/side3" unique_id=992992438]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/side3/StaticBody3D" unique_id=1631160710]
+shape = SubResource("BoxShape3D_a0dfq")
+
+[node name="side4" type="MeshInstance3D" parent="MeshInstance3D" unique_id=205531892]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.021930791, 0.5, 2.1498883)
+material_override = ExtResource("2_nm5wm")
+mesh = SubResource("BoxMesh_b5x5a")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/side4" unique_id=1017548240]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/side4/StaticBody3D" unique_id=1125740270]
+shape = SubResource("BoxShape3D_a0dfq")
+
+[node name="corner" type="MeshInstance3D" parent="MeshInstance3D" unique_id=227714766]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 2.15, 0.5, 2.15)
+material_override = ExtResource("2_nm5wm")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner" unique_id=325775376]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner/StaticBody3D" unique_id=1631576526]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner2" type="MeshInstance3D" parent="MeshInstance3D" unique_id=225359853]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 2.15, 0.5, 2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner2" unique_id=1551233961]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner2/StaticBody3D" unique_id=1330484916]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner3" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1564274580]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, -2.15, 0.5, 2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner3" unique_id=759767306]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner3/StaticBody3D" unique_id=1003440532]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner4" type="MeshInstance3D" parent="MeshInstance3D" unique_id=372512036]
+transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, -2.15, 0.5, 2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner4" unique_id=1152380400]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner4/StaticBody3D" unique_id=2087553409]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner5" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2070392099]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 2.15, 0.5, -2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner5" unique_id=1889680278]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner5/StaticBody3D" unique_id=947534791]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner6" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1647984111]
+transform = Transform3D(-4.371139e-08, -1, 4.371139e-08, 0, -4.371139e-08, -1, 1, -4.371139e-08, 1.9106855e-15, 2.15, 0.5, -2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner6" unique_id=2107164080]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner6/StaticBody3D" unique_id=184446471]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner7" type="MeshInstance3D" parent="MeshInstance3D" unique_id=312582718]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -2.15, 0.5, -2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner7" unique_id=688724424]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner7/StaticBody3D" unique_id=1685533205]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="corner8" type="MeshInstance3D" parent="MeshInstance3D" unique_id=2022172036]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, -2.15, 0.5, -2.15)
+material_override = SubResource("StandardMaterial3D_fjprn")
+mesh = SubResource("PrismMesh_p4g5o")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D/corner8" unique_id=1693286975]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/corner8/StaticBody3D" unique_id=1723075876]
+shape = SubResource("ConvexPolygonShape3D_l4o1s")
+debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
+
+[node name="Button" type="Button" parent="." unique_id=1377152492]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+text = "SKIP PLACEMENT"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

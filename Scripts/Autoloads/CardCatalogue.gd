@@ -72,6 +72,9 @@ func get_skin(num : int) -> Node3D:
 		return null
 	# if skin is already built, return it
 	if skins.has(num):
+		if not skins.get(num):
+			skins.erase(num)
+			return get_skin(num)
 		var dup : AutoSkin = skins.get(num).duplicate()
 		dup.build(num)
 		print("skin duplicated and returned from cache: ", dup)

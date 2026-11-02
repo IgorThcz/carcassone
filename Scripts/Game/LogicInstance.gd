@@ -13,6 +13,9 @@ signal meeple_placed(player: Player, slot_index: int)
 signal card_discarded(card_id: int)
 signal game_finished(final_scores: Dictionary)
 
+signal meeples_removed(meeple_locations : Dictionary[Vector2i, Array])
+signal points_updated(changes : Dictionary[Player, int])
+
 var players: Array[Player] = []
 var initial_card_id: int = 10
 var total_tiles: int = 72
@@ -59,6 +62,8 @@ func _init(
 			self.turn_passed.connect(p.on_logic_instance_turn_passed)
 		if not self.card_placed.is_connected(p.on_logic_instance_card_placed):
 			self.card_placed.connect(p.on_logic_instance_card_placed)
+		if not self.meeple_placed.is_connected(p.on_logic_instance_meeple_placed):
+			self.meeple_placed.connect(p.on_logic_instance_meeple_placed)
 
 
 func start_game() -> void:
@@ -136,7 +141,13 @@ func get_valid_meeple_slots() -> Array[int]:
 # --- REQUISIÇÕES DOS JOGADORES ---
 
 func _on_player_card_placement_request(player: Player, coords: Vector2i, p_rotation: CardStructure.CARDROTATION) -> void:
+	MO.success("LOGIC INSTANE RECEIVED CARD PLACEMENT REQUEST")
 	if player != _state_machine.get_current_player() or current_drawn_card == null:
+		MO.error("INVALIDATED BECAUSE:")
+		if current_drawn_card:
+			MO.error("CURRENT DRAWN CARD IS NULL")
+		if player != _state_machine.get_current_player():
+			MO.error("PLAYER COULD NOT BE VALIDATED")
 		return
 
 	if _board.can_place_card(coords, current_drawn_card, p_rotation):
@@ -154,6 +165,7 @@ func _on_player_meeple_placement_request(player: Player, slot_index: int) -> voi
 		player.use_meeple()
 
 	meeple_placed.emit(player, slot_index)
+	MO.success("LOCIG INSTANCE REVEIVED MEEPLE PLACEMENT REQUEST")
 	pass_turn()
 
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bs5e6s44fk5c4" path="res://Scenes/Game/Entities/camera.tscn" id="1_j5yw3"]
 [ext_resource type="Script" uid="uid://lccrs8v3wifb" path="res://Scripts/Views/view3D.gd" id="1_uypyq"]
+[ext_resource type="PackedScene" uid="uid://dcv7fv31m88vw" path="res://Scenes/meeple_index_input.tscn" id="3_5bbj7"]
 
 [sub_resource type="Environment" id="Environment_26yhd"]
 ambient_light_source = 3
@@ -41,26 +42,6 @@ min_zoom = 5.0
 
 [node name="boxes" type="Node3D" parent="." unique_id=1538113952]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1187201692]
-visible = false
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
+[node name="meeple_index_input" parent="." unique_id=1219813324 instance=ExtResource("3_5bbj7")]
 
-[node name="SpinBox" type="SpinBox" parent="VBoxContainer" unique_id=262424336]
-custom_minimum_size = Vector2(200, 50)
-layout_mode = 2
-min_value = -1.0
-max_value = 12.0
-rounded = true
-alignment = 1
-
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=1176221050]
-custom_minimum_size = Vector2(200, 50)
-layout_mode = 2
-text = "confirm"
-
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="skip_placement" from="meeple_index_input" to="." method="_on_meeple_index_input_skip_placement"]
