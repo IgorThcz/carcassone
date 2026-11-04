@@ -7,16 +7,16 @@ func get_meeple_type() -> Meeple.MEEPLETYPE:
 	return Meeple.MEEPLETYPE.FARMER
 
 ## Campos nunca se fecham durante a partida e só pontuam no final
-func is_closed() -> bool:
+func is_closed(_region : Array[CardPart] = []) -> bool:
 	return false
 
 ## Calcula a pontuação final do campo (3 pontos por cidade concluída em contato)
-func calculate_points() -> int:
-	var field_region: Array[CardPart] = get_region()
+func calculate_points(region : Array[CardPart] = []) -> int:
+	if region.is_empty(): region = get_region()
 	var counted_city_parts: Array[CardPart] = []
 	var completed_cities_count: int = 0
 
-	for past_part in field_region:
+	for past_part in region:
 		var card: CardStructure = past_part.base_card
 		if card == null:
 			continue
@@ -52,6 +52,25 @@ func calculate_points() -> int:
 								counted_city_parts.append(c_part)
 
 	return completed_cities_count * 3
+
+func get_point_owners(region : Array[CardPart] = []) -> Array[Player]:
+	var amount : Dictionary[Player, int] = {}
+	if region.is_empty(): region = get_region()
+	for part : City in region:
+		var player : Player = part.occupier
+		if player:
+			amount.set(player, amount.get(player, 0) + 1) 
+	var owners : Array[Player] = []
+	var most   : int = 0
+	for player in amount.keys():
+		var value : int = amount.get(player)
+		if value > most:
+			most = value
+			var newarr : Array[Player] = [player]
+			owners = newarr
+		if value == most:
+			owners.append(player)
+	return owners
 
 func update() -> void:
 	pass

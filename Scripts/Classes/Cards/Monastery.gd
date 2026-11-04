@@ -12,13 +12,32 @@ func get_type() -> TYPES:
 func get_meeple_type() -> Meeple.MEEPLETYPE:
 	return Meeple.MEEPLETYPE.PRIEST
 
-func is_closed() -> bool:
+func is_closed(_region : Array[CardPart] = []) -> bool:
 	return _count_surrounding_cards() == 8
 
-func calculate_points() -> int:
+func calculate_points(_region : Array[CardPart] = []) -> int:
 	if base_card == null:
 		return 0
 	return 1 + _count_surrounding_cards()
+
+func get_point_owners(region : Array[CardPart] = []) -> Array[Player]:
+	var amount : Dictionary[Player, int] = {}
+	if region.is_empty(): region = get_region()
+	for part : City in region:
+		var player : Player = part.occupier
+		if player:
+			amount.set(player, amount.get(player, 0) + 1) 
+	var owners : Array[Player] = []
+	var most   : int = 0
+	for player in amount.keys():
+		var value : int = amount.get(player)
+		if value > most:
+			most = value
+			var newarr : Array[Player] = [player]
+			owners = newarr
+		if value == most:
+			owners.append(player)
+	return owners
 
 func _count_surrounding_cards() -> int:
 	if base_card == null:

@@ -55,41 +55,38 @@ func inner_search(card_part : CardPart, search_right : bool = true) -> bool:
 
 # Retorna todas as partes conectadas nesta mesma estrutura do grafo
 func get_region() -> Array[CardPart]:
-	var visited: Array[CardPart] = []
-	var queue: Array[CardPart] = [self]
-	
-	while not queue.is_empty():
-		var current = queue.pop_back()
+	var visited : Dictionary = {} # usado como set
+	var stack   : Array[CardPart] = [self]
+	while not stack.is_empty():
+		var current : CardPart = stack.pop_back()
 		if visited.has(current):
 			continue
-		visited.append(current)
-		
+		visited[current] = true
 		for conn in current.get_connections():
-			if conn and not visited.has(conn):
-				queue.append(conn)
-				
-	return visited
+			if not visited.has(conn):
+				stack.append(conn)
+	var result : Array[CardPart] = []
+	result.assign(visited.keys())
+	return result
 
 ## Verifica se a estrutura conectada inteira no grafo está livre de meeples
 func can_receive_meeple() -> bool:
-	if occupier != null:
-		return false
-
-	# Varre todas as partes conectadas da região no tabuleiro
+	# varre todas as partes conectadas da região no tabuleiro (incluindo self)
 	for part in get_region():
 		if part.occupier != null:
 			return false
-
 	return true
 
 "------------------------------ FOR OVERRIDING ------------------------------"
+
+@abstract func get_point_owners(region : Array[CardPart] = []) -> Array[Player]
 
 @abstract func get_meeple_type() -> Meeple.MEEPLETYPE
 
 @abstract func get_type() -> TYPES
 
-@abstract func calculate_points() -> int
+@abstract func calculate_points(region : Array[CardPart] = []) -> int
 
-@abstract func is_closed() -> bool
+@abstract func is_closed(region : Array[CardPart] = []) -> bool
 
 @abstract func update() -> void

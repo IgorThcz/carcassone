@@ -11,9 +11,12 @@ signal card_drawn(player: Player, card_id: int) # esse sinal não é redundante 
 signal card_placed(player: Player, coords: Vector2i, rotation: CardStructure.CARDROTATION, meeple_valids: Array[int], card_id: int)
 signal meeple_placed(player: Player, slot_index: int)
 signal card_discarded(card_id: int)
-signal game_finished(final_scores: Dictionary)
+signal game_finished(final_players: Array[Player])
 
-signal meeples_removed(meeple_locations : Dictionary[Vector2i, Array])
+signal card_placement_denied(player: Player)
+signal meeple_placement_denied(player: Player)
+
+signal meeples_removed(changes : Dictionary[Player, Array])
 signal points_updated(changes : Dictionary[Player, int])
 
 var players: Array[Player] = []
@@ -64,6 +67,15 @@ func _init(
 			self.card_placed.connect(p.on_logic_instance_card_placed)
 		if not self.meeple_placed.is_connected(p.on_logic_instance_meeple_placed):
 			self.meeple_placed.connect(p.on_logic_instance_meeple_placed)
+		if not self.meeples_removed.is_connected(p.on_logic_instance_meeples_removed):
+			self.meeples_removed.connect(p.on_logic_instance_meeples_removed)
+		if not self.points_updated.is_connected(p.on_logic_instance_points_updated):
+			self.points_updated.connect(p.on_logic_instance_points_updated)
+		if not self.game_finished.connect(p.on_logic_instance_game_finished):
+			self.game_finished.connect(p.on_logic_instance_game_finished)
+	# coneta os sinais do board:
+	_board.meeples_removed.connect(_on_board_meeples_removed)
+	_board.points_updated .connect(_on_board_points_updated)
 
 
 func start_game() -> void:
@@ -85,6 +97,8 @@ func start_game() -> void:
 
 
 func pass_turn() -> void:
+	# antes de passar o turno, avalia o impacto da ultima jogada
+	_board.evaluate_turn_closures(current_drawn_card)
 	if not _game_started:
 		return
 
@@ -137,39 +151,44 @@ func get_valid_meeple_slots() -> Array[int]:
 		return []
 	return current_drawn_card.get_valid_meeple_slots(current_player)
 
+# --- AVOSOS DE MUDANÇA DE ESTADO DO TABULEIRO --- #
+
+func _on_board_meeples_removed(positions : Dictionary[Player, Array]) -> void:
+	meeples_removed.emit(positions)
+
+func _on_board_points_updated(changes : Dictionary[Player, int]) -> void:
+	points_updated.emit(changes)
 
 # --- REQUISIÇÕES DOS JOGADORES ---
 
 func _on_player_card_placement_request(player: Player, coords: Vector2i, p_rotation: CardStructure.CARDROTATION) -> void:
-	MO.success("LOGIC INSTANE RECEIVED CARD PLACEMENT REQUEST")
 	if player != _state_machine.get_current_player() or current_drawn_card == null:
-		MO.error("INVALIDATED BECAUSE:")
-		if current_drawn_card:
-			MO.error("CURRENT DRAWN CARD IS NULL")
-		if player != _state_machine.get_current_player():
-			MO.error("PLAYER COULD NOT BE VALIDATED")
 		return
 
 	if _board.can_place_card(coords, current_drawn_card, p_rotation):
 		_board.place_card(coords, current_drawn_card, p_rotation)
 		var valid_slots: Array[int] = current_drawn_card.get_valid_meeple_slots(player)
 		card_placed.emit(player, coords, p_rotation, valid_slots, current_card_id)
+		if valid_slots.is_empty():
+			pass_turn()
+	else:
+		card_placement_denied.emit(player)
 
 
 func _on_player_meeple_placement_request(player: Player, slot_index: int) -> void:
-	if player != _state_machine.get_current_player():
+	if slot_index == CardStructure.SKIP_SLOT_INDEX:
+		pass_turn()
+	if player != _state_machine.get_current_player() or current_drawn_card == null:
 		return
-
-	if current_drawn_card and slot_index != CardStructure.SKIP_SLOT_INDEX:
-		current_drawn_card.place_meeple(slot_index, player)
-		player.use_meeple()
-
+	# place_meeple devolve true para o skip e false para índice inválido
+	if not current_drawn_card.place_meeple(slot_index, player):
+		meeple_placement_denied.emit(player)
+		return
 	meeple_placed.emit(player, slot_index)
-	MO.success("LOCIG INSTANCE REVEIVED MEEPLE PLACEMENT REQUEST")
 	pass_turn()
 
 
 func _finish_game() -> void:
 	_game_started = false
-	var final_scores: Dictionary = _board.calculate_final_scores(players)
-	game_finished.emit(final_scores)
+	_board.calculate_final_scores(players)
+	game_finished.emit(players)

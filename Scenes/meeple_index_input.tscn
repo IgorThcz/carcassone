@@ -184,13 +184,24 @@ mesh = SubResource("PrismMesh_p4g5o")
 shape = SubResource("ConvexPolygonShape3D_l4o1s")
 debug_color = Color(0.8666667, 0.101960786, 0.1764706, 0.8745098)
 
-[node name="Button" type="Button" parent="." unique_id=1377152492]
-anchors_preset = 1
-anchor_left = 1.0
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=321080946]
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -8.0
-offset_bottom = 8.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Button" type="Button" parent="MarginContainer" unique_id=1377152492]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
 text = "SKIP PLACEMENT"
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]

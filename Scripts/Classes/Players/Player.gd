@@ -21,11 +21,15 @@ signal card_placed_repass(
 	card_id: int
 )
 signal meeple_placed_repass(player: Player, index: int)
-signal game_finished_repass(scores: Dictionary)
+signal game_finished_repass(players: Array[Player])
 signal card_discarded_repass(card_id: int)
 
 signal card_placement_denied()
 signal meeple_placement_denied()
+
+signal meeples_removed_repass(changes : Dictionary[Player, Array])
+signal points_updated_repass(changes : Dictionary[Player, int])
+
 
 # ------------------------------------------------------------------------------
 # ATRIBUTOS DE ESTADO E DOMÍNIO
@@ -147,12 +151,17 @@ func on_logic_instance_meeple_placed(player: Player, index: int) -> void:
 
 # OUTROS REPASSES --------------------------------------------------------------
 
-func on_logic_instance_game_finished(scores: Dictionary) -> void:
+func on_logic_instance_game_finished(scores: Array[Player]) -> void:
 	game_finished_repass.emit(scores)
 
 func on_logic_instance_card_discarded(card_id: int) -> void:
 	card_discarded_repass.emit(card_id)
 
+func on_logic_instance_meeples_removed(positions : Dictionary[Player, Array]) -> void:
+	meeples_removed_repass.emit(positions)
+
+func on_logic_instance_points_updated(changes : Dictionary[Player, int]) -> void:
+	points_updated_repass.emit(changes)
 
 # ------------------------------------------------------------------------------
 # HOOKS ABSTRATOS DE DECISÃO (Implementados por AIPlayer e HumanPlayer/IO)

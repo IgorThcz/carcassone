@@ -77,6 +77,9 @@ func _setup_connections() -> void:
 	local_player.meeple_placed_repass    .connect(_on_meeple_placed_repass)
 	local_player.game_finished_repass    .connect(_on_game_finished_repass)
 	local_player.card_discarded_repass   .connect(_on_card_discarded_repass)
+	
+	local_player.meeples_removed_repass  .connect(_on_meeples_removed_repass)
+	local_player.points_updated_repass   .connect(_on_points_updated_repass)
 
 	# 2. Escuta AÇÕES DA VIEW 3D -> Chama métodos no controller do Player
 	if view and view.has_signal("tile_placement_requested"):
@@ -158,6 +161,7 @@ func _on_card_placed_repass(
 	# se estava esperando resposta de posicionamento de carta ------------------
 	if mode == INSTANCE_MODE.SENT_CARD_PLACEMENT_REQUEST:
 		if not meeple_valid_indexes.is_empty():
+			MO.success("IS IN FACT EMPTY")
 			current_valid_indexes = meeple_valid_indexes
 			view.go_place_meeple_mode(meeple_valid_indexes)
 			mode = INSTANCE_MODE.PLACING_MEEPLE
@@ -184,19 +188,27 @@ func _on_meeple_placement_denied_repass():
 #   - remove um meeple do player na hud
 #   - modo muda para esperando
 func _on_meeple_placed_repass(player: Player, index: int) -> void:
-	MO.error("MEEPLE VISUAL PLACEMENT CALLED")
 	view.add_meeple(last_placed_card_pos, index, player.color)
 	hud.set_meeples_for_player(player.available_meeples, player.id)
 	if mode == INSTANCE_MODE.SENT_MEEPLE_PLACEMENT_REQUEST:
 		view.exit_all_modes()
 		mode = INSTANCE_MODE.WAITING
 
+func _on_meeples_removed_repass(changes : Dictionary[Player, Array]) -> void:
+	for player : Player in changes.keys():
+		for position in changes.get(player):
+			view.remove_meeple(position)
+		hud.set_meeples_for_player(player.available_meeples, player.id)
+
+func _on_points_updated_repass(changes : Dictionary[Player, int]) -> void:
+	for player : Player in changes.keys():
+		hud.set_points_for_player(changes.get(player, 0), player.id)
+
 # o LogicInstance determinou fim do jogo
 # - (sempre)
 #   - mostrar tela de resultados
-func _on_game_finished_repass(scores: Dictionary) -> void:
-	if hud and hud.has_method("show_final_scores"):
-		hud.show_final_scores(scores)
+func _on_game_finished_repass(players: Array[Player]) -> void:
+	hud.launch_ranking_screen(players)
 
 # se o LogicInstance comprou uma carta não posicionável do deck
 # - (sempre)

@@ -3,11 +3,10 @@ class_name MeepleIndexInput extends Node3D
 const blue_material   : StandardMaterial3D = preload("uid://dw2sfmecocxt2")
 const yellow_material : StandardMaterial3D = preload("uid://b6okiw40h0xss")
 
-@onready var button = $Button
+@onready var button = $MarginContainer/Button
 signal skip_placement
 
 @onready var indexes : Dictionary[int, StaticBody3D] = {
-	-1 : $MeshInstance3D/center/StaticBody3D,
 	0  : $MeshInstance3D/corner7/StaticBody3D,
 	1  : $MeshInstance3D/side3/StaticBody3D,
 	2  : $MeshInstance3D/corner5/StaticBody3D,
@@ -20,6 +19,7 @@ signal skip_placement
 	9  : $MeshInstance3D/corner3/StaticBody3D,
 	10 : $MeshInstance3D/side/StaticBody3D,
 	11 : $MeshInstance3D/corner8/StaticBody3D,
+	12 : $MeshInstance3D/center/StaticBody3D, # centro: index = 12
 }
 
 var valid_indexes : Array = []

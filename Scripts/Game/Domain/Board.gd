@@ -1,6 +1,9 @@
 class_name Board
 extends RefCounted
 
+signal points_updated(changes : Dictionary[Player, int])
+signal meeples_removed(changes : Dictionary[Player, Array])
+
 ## Responsável por armazenar as peças jogadas, calcular adjacências,
 ## conectar lados compatíveis e gerenciar o estado topológico do jogo.
 
@@ -69,9 +72,6 @@ func place_card(pos: Vector2i, card: CardStructure, p_rotation: int = 0) -> bool
 	card.position = pos
 	card.board = self
 	_update_adjacents(pos)
-	
-	# Avalia se a jogada concluiu estruturas no tabuleiro
-	evaluate_turn_closures(card)
 	return true
 
 
@@ -92,7 +92,6 @@ func validate_card_placement(pos: Vector2i, card: CardStructure) -> bool:
 			var neighbor_card: CardStructure = _grid[neighbor_pos]
 			if not card.is_side_compatible(neighbor_card, dir):
 				return false
-
 	return has_neighbor
 
 
@@ -136,19 +135,30 @@ func evaluate_turn_closures(placed_card: CardStructure) -> void:
 			if not occupiers.is_empty():
 				# Atribui pontos aos jogadores com maioria de meeples na estrutura
 				var dominant_players: Array[Player] = _get_dominant_players(occupiers)
+				var changes : Dictionary[Player, int]
 				for player in dominant_players:
 					player.add_score(points)
+					changes.set(player, player.score)
 					print("[Board] Estrutura concluída! %d pontos concedidos a %s." % [points, player.player_name])
+				points_updated.emit(changes)
 
 				# Devolve todos os meeples presentes na estrutura para suas respectivas reservas
+				# Também devolve um sinal com as mudanças
+				var meeples_returned : Dictionary[Player, Array] = {}
 				for p in region:
 					if p.occupier:
-						p.occupier.return_meeple()
+						var occupier : Player = p.occupier
+						occupier.return_meeple()
 						p.occupier = null
+						if meeples_returned.has(occupier):
+							meeples_returned.get(occupier).append(p.base_card.position)
+						else:
+							meeples_returned.set(occupier, [p.base_card.position])
+				meeples_removed.emit(meeples_returned)
 
 
 ## Calcula a pontuação final de encerramento para estruturas incompletas
-func calculate_final_scores(players: Array[Player]) -> Dictionary:
+func calculate_final_scores(players: Array[Player]) -> void:
 	var evaluated_parts: Array[CardPart] = []
 
 	for pos in _grid.keys():
@@ -180,10 +190,11 @@ func calculate_final_scores(players: Array[Player]) -> Dictionary:
 						player.add_score(points)
 						print("[Board] Fim de jogo: +%d pontos para %s (Estrutura incompleta)." % [points, player.player_name])
 
-	var final_scores: Dictionary = {}
+	var final_scores: Dictionary[Player, int] = {}
 	for player in players:
 		final_scores[player] = player.score
-	return final_scores
+	points_updated.emit(final_scores)
+	return
 
 
 ## Retorna posições e rotações válidas para uma carta

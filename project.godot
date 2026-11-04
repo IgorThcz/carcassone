@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Carcassone"
+config/name="Just Another Specific Tile Game"
 run/main_scene="uid://7lxb01yfn7c6"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
@@ -35,6 +35,10 @@ folder_colors={
 "res://Shaders/": "blue",
 "res://Suplementaries/": "purple"
 }
+
+[gui]
+
+theme/custom="uid://cniv22avvhvds"
 
 [physics]
 

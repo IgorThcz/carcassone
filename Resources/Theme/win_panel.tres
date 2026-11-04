@@ -1,0 +1,12 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://d1igwnhsbg8dq"]
+
+[ext_resource type="Texture2D" uid="uid://caf8ykeiyghna" path="res://Assets/UI/winframe.png" id="1_nlwfe"]
+
+[resource]
+texture = ExtResource("1_nlwfe")
+texture_margin_left = 26.0
+texture_margin_top = 26.0
+texture_margin_right = 26.0
+texture_margin_bottom = 26.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1

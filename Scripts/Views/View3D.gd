@@ -7,7 +7,7 @@ const LAYER_CARD_BOX   : int = 1 << 1
 const LAYER_MEEPLE_BOX : int = 1 << 2
 
 # índice enviado para pular o posicionamento de meeple (inválido de propósito)
-const SKIP_INDEX : int = -2
+const SKIP_INDEX : int = CardStructure.SKIP_SLOT_INDEX
 
 const clickbox_packed_scene : PackedScene = preload("uid://b2ydf2f02si3p")
 
@@ -28,7 +28,6 @@ var placing_meeple : bool = false
 
 # --- compartilhado ---
 var cards   : Dictionary[Vector2i, AutoSkin] = {}
-var meeples : Dictionary[AutoSkin, Node3D]   = {}
 var last_placed_skin : AutoSkin
 
 # --- modo carta ---
@@ -207,18 +206,13 @@ func add_card(
 func add_meeple(card_pos: Vector2i, meeple_index : int, color : Color) -> void:
 	var card_skin : AutoSkin = cards.get(card_pos)
 	if not card_skin:
-		MO.error("SKIN FOR CARD NOT FOUND")
 		return
 	card_skin.add_meeple_at_index(meeple_index, color)
-	MO.success("Meeple placed at index " + str(meeple_index))
 
-"NÃO REVISADO, ESPERE NÃO FUNCIONAR"
 func remove_meeple(card_pos: Vector2i) -> void:
 	var card_skin = cards.get(card_pos)
-	if card_skin and meeples.has(card_skin):
-		var meeple_node = meeples[card_skin]
-		meeple_node.queue_free()
-		meeples.erase(card_skin)
+	if card_skin:
+		card_skin.base.remove_all_meeples()
 
 "------------------------------ ENTRAR EM MODOS --------------------------------"
 # cada método liga só o seu modo; não mexe nos outros
@@ -345,4 +339,3 @@ func _index_selected(index : int) -> void:
 	meplacer.disable()
 	_update_ray_mask()
 	meeple_placement_requested.emit(index)
-	MO.success("meeple asked at index " + str(index))

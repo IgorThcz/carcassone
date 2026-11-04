@@ -6,8 +6,6 @@
 font_size = 48
 font_color = Color(0.9019608, 0.72156864, 0.2627451, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jtwau"]
-
 [node name="OptionsMenu" type="Control" unique_id=1471406652]
 layout_mode = 3
 anchors_preset = 15
@@ -86,9 +84,9 @@ text = "Silenciar Áudio"
 unique_name_in_owner = true
 modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
 self_modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_jtwau")
 
 [node name="Label4" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1277408710]
 layout_mode = 2
@@ -98,9 +96,9 @@ text = "Modo Daltônico"
 unique_name_in_owner = true
 modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
 self_modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_jtwau")
 
 [node name="Label5" type="Label" parent="MarginContainer/CenterContainer/MainContainer/SettingsGrid" unique_id=1155495776]
 layout_mode = 2
@@ -110,9 +108,9 @@ text = "Tela Cheia"
 unique_name_in_owner = true
 modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
 self_modulate = Color(0.9019608, 0.72156864, 0.2627451, 1)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_jtwau")
 
 [node name="BtnBack" type="Button" parent="MarginContainer/CenterContainer/MainContainer" unique_id=1542339922]
 unique_name_in_owner = true

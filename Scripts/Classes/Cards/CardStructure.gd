@@ -20,7 +20,7 @@ var position: Vector2i
 var rotation: CARDROTATION = CARDROTATION.UP
 
 # Primeiro índice do lado superior
-var top_index: int = 0
+const top_index: int = 0
 
 # Os 12 nós de borda da carta
 var sides: Array[CardPart] = []
@@ -101,12 +101,12 @@ func get_part(index: int, ciclic_below_zero: bool = false) -> CardPart:
 		index = posmod(index, 12)
 	if index < 0:
 		return middle
-	return sides.get((top_index + (3 * rotation) + index) % 12)
+	return sides.get(posmod((top_index + (3 * rotation) + index), 12))
 
 
 ## Retorna a lista de índices de slots válidos para receber meeple nesta carta
 func get_valid_meeple_slots(player) -> Array[int]:
-	var valids: Array[int] = [SKIP_SLOT_INDEX]
+	var valids: Array[int] = []
 	
 	if player == null or has_meeple:
 		return valids
@@ -126,12 +126,12 @@ func get_valid_meeple_slots(player) -> Array[int]:
 	return valids
 
 
-## Valida se um slot específico pode receber um meeple
+## Valida se um slot local específico pode receber um meeple
 func can_receive_meeple_at(index: int) -> bool:
 	if has_meeple or index == SKIP_SLOT_INDEX:
 		return false
-
-	var part: CardPart = get_part(index)
+	
+	var part : CardPart = get_local_part(index)
 	return part != null and part.can_receive_meeple()
 
 
@@ -146,7 +146,7 @@ func place_meeple(index: int, player) -> bool:
 	if player.has_method("has_available_meeple") and not player.has_available_meeple():
 		return false
 
-	var part: CardPart = get_part(index)
+	var part: CardPart = get_local_part(index)
 	if part and part.can_receive_meeple():
 		part.occupier = player
 		has_meeple = true
@@ -156,6 +156,11 @@ func place_meeple(index: int, player) -> bool:
 
 	return false
 
+func get_local_part(index : int) -> CardPart:
+	if index >= 0 and index <= 11:
+		return sides.get(index)
+	elif index == 12: return middle
+	return null
 
 func update_regions() -> void:
 	for part in sides:
@@ -174,8 +179,10 @@ func is_side_compatible(neighbor_card: CardStructure, dir: Vector2i) -> bool:
 	var dir_index: int = _vector_to_rotation(dir)
 	var opposite_dir_index: int = _vector_to_rotation(-dir)
 	for j in range(3):
-		var own_part: CardPart = get_part(3 * dir_index + j)
-		var neighbor_part: CardPart = neighbor_card.get_part(3 * opposite_dir_index + (2 - j))
+		var index    : int = posmod(3 * dir_index + j, 12)
+		var op_index : int = posmod(3 * opposite_dir_index + (2 - j), 12)
+		var own_part      : CardPart = get_part(index)
+		var neighbor_part : CardPart = neighbor_card.get_part(op_index)
 		if own_part.get_type() != neighbor_part.get_type():
 			return false
 	return true
